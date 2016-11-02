@@ -1,0 +1,16 @@
+	.globl mystery
+mystery:
+	movl	$0, %eax ; eax gets 0
+	leaq	(%rdi, %rsi), %rcx ;rcx = rdi + rsi
+
+loop:
+	cmpq	%rdi, %rcx ;compare rdi, rcx (quad words)
+	jle	endl ;jle is a conditional jump, if (rdx-rsi)
+	decq	%rcx ;decrement quadword in rcx
+	cmpb	$0x6f, (%rcx) ;compare 0x6f = 111 to rcx
+	jne	loop ;jump if 0 to loop
+	incl	%eax ; else go here
+	jmp	loop ;jump to loop unconditional
+
+endl:
+	ret
