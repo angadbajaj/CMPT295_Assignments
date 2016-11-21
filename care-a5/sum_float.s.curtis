@@ -1,0 +1,74 @@
+.globl sum_float
+
+# var map:
+#   %xmm0:  total
+#   %rdi:   F[n] (base pointer)
+#   %rsi:   n  /  address counter
+#   %rbp:   endptr
+#   %rdx:   front of queue
+#   %rcx:   contains address of origin of queue
+#   %xmm1:  x
+#   %xmm2:  y
+#   %xmm0:  result
+
+sum_float:
+push    %rbp
+movq    %rsp,     %rdx              # store front of queue in %rdx
+movq    %rsp,     %rcx              # save starting addr of queue in %rcx
+xorps	  %xmm0,    %xmm0             # total <- 0.0
+leaq	  (%rdi,    %rsi, 4), %rbp    # endptr <- F + n
+movq    %rsi,     %r10
+movq    %rdi,     %rsi
+movq    $1,       %r9
+
+main_loop:
+cmp     %r9,      %r10
+jl      end_main_loop
+                                  # obtain x value
+cmp     %rsi,     %rbp              # F[] is empty
+jle      dq_Q_x
+movss   (%rsi),   %xmm1             # x <- head(F)
+cmp     %rsp,     %rdx              # queue not empty ?
+jl      dq_F_x
+ucomiss (%rdx),   %xmm1             # head(F) - head(Q) > 0 ?
+jle     dq_F_x
+
+dq_Q_x:                               # x <- head(Q)
+movss   (%rdx),   %xmm1
+leaq    -4(%rdx), %rdx
+jmp     end_dq_F_x
+
+dq_F_x:                               # x <- head(F) (just keep xmm1 value)
+leaq    4(%rsi),  %rsi
+
+end_dq_F_x:                           # obtain y value
+cmp     %rsi,     %rbp              # F[] is empty
+jle     dq_Q_y
+movss   (%rsi),   %xmm2             # y <- head(F)
+cmp     %rsp,     %rdx              # queue not empty ?
+jl      dq_F_y
+ucomiss (%rdx),   %xmm2             # head(F) - head(Q) < 0 ?
+jge     dq_F_y
+
+dq_Q_y:                               # y <- head(Q)
+movss   (%rdx),   %xmm2
+leaq    -4(%rdx), %rdx
+jmp     end_dq_F_y
+
+dq_F_y:                               # y <- head(F) (just keep xmm2 value)
+leaq    4(%rsi),  %rsi
+
+end_dq_F_y:
+addss   %xmm2,    %xmm1             # x <- x + y
+leaq    -4(%rsp), %rsp              # Push result sum to queue
+movss   %xmm1,    (%rsp)
+incq    %r9
+jmp     main_loop
+
+end_main_loop:
+movss   (%rsp),   %xmm0             # Pop result into %xmm0
+movq    %rcx,     %rsp              # recyle queue space on stack
+
+return:
+pop	    %rbp                        # restore callee saved regs
+ret

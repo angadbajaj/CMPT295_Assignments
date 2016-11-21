@@ -44,12 +44,7 @@ negative:
 end:
 	ret						# simply return otherwise
 
-Algorithm:
-Go to the end of the string. Get the char at that value, convert to int by first
-getting the chars int value by anding with a mask of 15 (0000 1111). Next, multiply
-by 10^i where the char is at the ith position from 0-N left to right. Lastly, we add
-this value to our output memory which was initalized to 0. If there is overflow, eax
-becomes set to 1.
+
 
 
 

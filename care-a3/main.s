@@ -134,5 +134,5 @@ tests:
 	.zero	19
 	.string	"-9223372036854775809"
 	.zero	19
-	.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.2) 5.4.0 20160609"
+	.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.4) 5.4.0 20160609"
 	.section	.note.GNU-stack,"",@progbits
