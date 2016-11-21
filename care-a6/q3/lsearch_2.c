@@ -15,10 +15,15 @@ search(A[n], target)
     else if A[n-1] == target then return n-1
     else return -1
 */
+<<<<<<< HEAD
 #include <stdio.h>
 int lsearch_2(int *A, int n, int target) {
 
 
+=======
+
+int lsearch_2(int *A, int n, int target) {
+>>>>>>> dcdeeddbd6f848568f11075e75c957628a1a0216
 
     //.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
     // Question 3(a):  Replace this code with the new algorithm

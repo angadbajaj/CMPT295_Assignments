@@ -10,7 +10,11 @@ int lsearch_1(int *A, int n, int target);
 #include <sys/resource.h>
 
 #define N 5000000
+<<<<<<< HEAD
 #define NTESTS 400
+=======
+#define NTESTS 50
+>>>>>>> dcdeeddbd6f848568f11075e75c957628a1a0216
 
 int A[N];
 
@@ -92,3 +96,8 @@ int lsearch_1(int *A, int n, int target) {
     }
     return -1;
 }  // lsearch_1
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> dcdeeddbd6f848568f11075e75c957628a1a0216
