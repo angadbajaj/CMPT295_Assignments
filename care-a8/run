@@ -1,0 +1,5 @@
+make clean
+make x
+make y
+./x < input
+./y < input
